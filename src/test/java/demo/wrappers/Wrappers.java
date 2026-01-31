@@ -101,8 +101,8 @@ public class Wrappers {
 
     public void getNProduct(List<WebElement> list, int n) {
 
-        List<Double> numList = new ArrayList<>();
-        Map<Double, String> sortedMap = new HashMap<>();
+        Set<Integer> numList = new HashSet<>();
+        Map<Integer, List<String>> sortedMap = new HashMap<>();
         for (WebElement parentEle : list) {
             WebElement childReviewCount = parentEle.findElement(By.xpath(".//div//span[2]"));
             WebElement product = parentEle.findElement(By.xpath(".//a[2]"));
@@ -111,16 +111,21 @@ public class Wrappers {
             String productText = product.getText();
             String strText = childReviewCount.getText();
             String strText1 = strText.replaceAll("[(),]", "");
-            double actualNum = Double.parseDouble(strText1);
-            sortedMap.put(actualNum, "Poduct Name ====> " + productText + " Image Url =======> " + imageUrl);
+            Integer actualNum = Integer.parseInt(strText1);
+            if(!sortedMap.containsKey(actualNum)){
+                sortedMap.put(actualNum, new ArrayList<>());
+            }
+            sortedMap.get(actualNum).add("Poduct Name ====> " + productText + " Image Url =======> " + imageUrl);
+            //sortedMap.put(actualNum, "Poduct Name ====> " + productText + " Image Url =======> " + imageUrl);
             numList.add(actualNum);
 
         }
-        Collections.sort(numList, Collections.reverseOrder());
-        System.out.println(numList);
+        List<Integer> sortedNum =new ArrayList<>(numList);
+        Collections.sort(sortedNum, Collections.reverseOrder());
+        System.out.println(sortedNum);
 
-        for (int i = 0; i < n; i++) {
-            Double num = numList.get(i);
+        for (int i = 0; i < Math.min(n,sortedNum.size()); i++) {
+            Integer num = sortedNum.get(i);
             System.out.println(i + 1 + ". [" + num + "]  " + sortedMap.get(num));
 
         }
