@@ -2,21 +2,15 @@ package demo.wrappers;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
+import java.util.*;
 import java.util.List;
 import java.util.Map;
-import java.util.TreeMap;
-import java.util.stream.Collectors;
-
+import java.util.Set;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
-import java.time.Duration;
 
 public class Wrappers {
     ChromeDriver driver;
@@ -101,8 +95,8 @@ public class Wrappers {
 
     public void getNProduct(List<WebElement> list, int n) {
 
-        List<Double> numList = new ArrayList<>();
-        Map<Double, List<String>> sortedMap = new HashMap<>();
+        Set<Integer> numList = new HashSet<>();
+        Map<Integer, List<String>> sortedMap = new HashMap<>();
         for (WebElement parentEle : list) {
             WebElement childReviewCount = parentEle.findElement(By.xpath(".//div//span[2]"));
             WebElement product = parentEle.findElement(By.xpath(".//a[2]"));
@@ -111,21 +105,21 @@ public class Wrappers {
             String productText = product.getText();
             String strText = childReviewCount.getText();
             String strText1 = strText.replaceAll("[(),]", "");
-            double actualNum = Double.parseDouble(strText1);
+            Integer actualNum = Integer.parseInt(strText1);
             if(!sortedMap.containsKey(actualNum)){
                 sortedMap.put(actualNum, new ArrayList<>());
             }
-            sortedMap.get(actualNum).add( "Poduct Name ====> " + productText + " Image Url =======> " + imageUrl);
-            // sortedMap.put(actualNum, "Poduct Name ====> " + productText + " Image Url =======> " + imageUrl);
+            sortedMap.get(actualNum).add("Poduct Name ====> " + productText + " Image Url =======> " + imageUrl);
+            //sortedMap.put(actualNum, "Poduct Name ====> " + productText + " Image Url =======> " + imageUrl);
             numList.add(actualNum);
 
         }
-        Collections.sort(numList, Collections.reverseOrder());
-        // Collections.sort(numList);
-        System.out.println(numList);
+        List<Integer> sortedNum =new ArrayList<>(numList);
+        Collections.sort(sortedNum, Collections.reverseOrder());
+        System.out.println(sortedNum);
 
-        for (int i = 0; i < n; i++) {
-            Double num = numList.get(i);
+        for (int i = 0; i < Math.min(n,sortedNum.size()); i++) {
+            Integer num = sortedNum.get(i);
             System.out.println(i + 1 + ". [" + num + "]  " + sortedMap.get(num));
 
         }
