@@ -102,7 +102,7 @@ public class Wrappers {
     public void getNProduct(List<WebElement> list, int n) {
 
         List<Double> numList = new ArrayList<>();
-        Map<Double, String> sortedMap = new HashMap<>();
+        Map<Double, List<String>> sortedMap = new HashMap<>();
         for (WebElement parentEle : list) {
             WebElement childReviewCount = parentEle.findElement(By.xpath(".//div//span[2]"));
             WebElement product = parentEle.findElement(By.xpath(".//a[2]"));
@@ -112,11 +112,16 @@ public class Wrappers {
             String strText = childReviewCount.getText();
             String strText1 = strText.replaceAll("[(),]", "");
             double actualNum = Double.parseDouble(strText1);
-            sortedMap.put(actualNum, "Poduct Name ====> " + productText + " Image Url =======> " + imageUrl);
+            if(!sortedMap.containsKey(actualNum)){
+                sortedMap.put(actualNum, new ArrayList<>());
+            }
+            sortedMap.get(actualNum).add( "Poduct Name ====> " + productText + " Image Url =======> " + imageUrl);
+            // sortedMap.put(actualNum, "Poduct Name ====> " + productText + " Image Url =======> " + imageUrl);
             numList.add(actualNum);
 
         }
         Collections.sort(numList, Collections.reverseOrder());
+        // Collections.sort(numList);
         System.out.println(numList);
 
         for (int i = 0; i < n; i++) {
