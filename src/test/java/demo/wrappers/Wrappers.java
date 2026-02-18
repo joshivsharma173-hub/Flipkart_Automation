@@ -20,9 +20,11 @@ import java.time.Duration;
 
 public class Wrappers {
     ChromeDriver driver;
+    WebDriverWait wait ;
 
     public Wrappers(ChromeDriver driver) {
         this.driver = driver;
+        this.wait = new WebDriverWait(driver, Duration.ofSeconds(10));
     }
 
     /*
@@ -30,6 +32,7 @@ public class Wrappers {
      */
     // Enter a text
     public void enterText(WebElement ele, String text) {
+        wait.until(ExpectedConditions.elementToBeClickable(ele));
         ele.click();
         ele.clear();
 
@@ -44,8 +47,10 @@ public class Wrappers {
     }
 
     // Navigate to URL
-    public void navigateToUrl(String text) {
+    public boolean navigateToUrl(String text) {
+
         driver.get(text);
+        return wait.until(ExpectedConditions.urlToBe(text));
     }
 
     public static void pause(long n) throws InterruptedException {

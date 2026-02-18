@@ -9,6 +9,7 @@ import org.openqa.selenium.logging.LogType;
 import org.openqa.selenium.logging.LoggingPreferences;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.Assert;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
@@ -72,7 +73,7 @@ public class TestCases {
     public void testCase01() throws InterruptedException {
         System.out.println("TestCase01 starts.......");
         Wrappers wrapper = new Wrappers(driver);
-        wrapper.navigateToUrl("https://www.flipkart.com/");
+        Assert.assertTrue(wrapper.navigateToUrl("https://www.flipkart.com/"), "Url does not load");
         pause(3000);
         WebElement searchBox = driver.findElement(By.xpath("//input[@type='text']"));
         wrapper.enterText(searchBox, "Washing Machine");
@@ -93,7 +94,7 @@ public class TestCases {
     public void testCase02() throws InterruptedException {
         System.out.println("=======================TestCase02 starts===================");
         Wrappers wrapper = new Wrappers(driver);
-        wrapper.navigateToUrl("https://www.flipkart.com/");
+         Assert.assertTrue(wrapper.navigateToUrl("https://www.flipkart.com/"), "Url does not load");
         pause(3000);
         WebElement searchBox = driver.findElement(By.xpath("//input[@type='text']"));
         wrapper.enterText(searchBox, "iPhone");
@@ -113,7 +114,9 @@ public class TestCases {
     public void testCase03() throws InterruptedException {
 
         Wrappers wrapper = new Wrappers(driver);
-        wrapper.navigateToUrl("https://www.flipkart.com/");
+        
+         Assert.assertTrue(wrapper.navigateToUrl("https://www.flipkart.com/"), "Url does not load");
+       
         pause(3000);
         WebElement searchBox = driver.findElement(By.xpath("//input[@type='text']"));
 
