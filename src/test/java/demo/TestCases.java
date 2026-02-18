@@ -9,7 +9,9 @@ import org.openqa.selenium.logging.LogType;
 import org.openqa.selenium.logging.LoggingPreferences;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.Assert;
 import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
@@ -28,6 +30,7 @@ import static demo.wrappers.Wrappers.*;
 
 public class TestCases {
     ChromeDriver driver;
+    Wrappers wrapper;
 
     /*
      * TODO: Write your tests here with testng @Test annotation.
@@ -61,6 +64,13 @@ public class TestCases {
         driver.manage().window().maximize();
     }
 
+
+    @BeforeMethod
+    public void config() {
+        wrapper = new Wrappers(driver);
+        Assert.assertTrue(wrapper.navigateToUrl("https://www.flipkart.com/"), "Url does not load");
+
+    }
     @AfterTest
     public void endTest() {
         driver.close();
@@ -70,9 +80,7 @@ public class TestCases {
 
     @Test
     public void testCase01() throws InterruptedException {
-        System.out.println("TestCase01 starts.......");
-        Wrappers wrapper = new Wrappers(driver);
-        wrapper.navigateToUrl("https://www.flipkart.com/");
+        System.out.println("=======================TestCase01 starts===================");
         pause(3000);
         WebElement searchBox = driver.findElement(By.xpath("//input[@type='text']"));
         wrapper.enterText(searchBox, "Washing Machine");
@@ -86,14 +94,13 @@ public class TestCases {
         wrapper.starsCount(list, 4.2, false);
 
         pause(3000);
+        System.out.println("=======================TestCase01 ends===================");
 
     }
 
     @Test
     public void testCase02() throws InterruptedException {
         System.out.println("=======================TestCase02 starts===================");
-        Wrappers wrapper = new Wrappers(driver);
-        wrapper.navigateToUrl("https://www.flipkart.com/");
         pause(3000);
         WebElement searchBox = driver.findElement(By.xpath("//input[@type='text']"));
         wrapper.enterText(searchBox, "iPhone");
@@ -111,9 +118,8 @@ public class TestCases {
 
     @Test
     public void testCase03() throws InterruptedException {
+        System.out.println("=======================TestCase03 starts===================");
 
-        Wrappers wrapper = new Wrappers(driver);
-        wrapper.navigateToUrl("https://www.flipkart.com/");
         pause(3000);
         WebElement searchBox = driver.findElement(By.xpath("//input[@type='text']"));
 
@@ -129,6 +135,7 @@ public class TestCases {
         List<WebElement> list = wait
                 .until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath("//div[@class='RGLWAk']")));
         wrapper.getNProduct(list, 5);
+        System.out.println("=======================TestCase03 ends===================");
     }
 
 }
